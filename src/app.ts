@@ -5,26 +5,24 @@ import dotenv from "dotenv";
 
 dotenv.config()
 
-export const app = () => {
-    const config: ConfigsApp = {
-        port: Number(process.env.SERVER_PORT) || 3000
-    };
+const config: ConfigsApp = {
+    port: Number(process.env.SERVER_PORT) || 3000
+};
 
-    const expressInstance = express();
+const expressInstance = express();
 
-    try {
-        const appServer = new ExpressServer(expressInstance, config.port)
+try {
+    const appServer = new ExpressServer(expressInstance, config.port)
 
-        appServer.httpServer.on('error', () => {
-            console.log('Server error')
-        })
+    appServer.httpServer.on('error', () => {
+        console.log('Server error')
+    })
 
-        appServer.httpServer.on('listening', () => {
-            console.log('Server started')
-        })
-    } catch (error) {
-        console.error('Error during server initialization:', error)
-    }
+    appServer.httpServer.on('listening', () => {
+        console.log('Server started')
+    })
+
+    appServer.connectDB()
+} catch (error) {
+    console.error('Error during server initialization:', error)
 }
-
-app()
